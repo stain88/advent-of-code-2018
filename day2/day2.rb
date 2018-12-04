@@ -1,3 +1,5 @@
+require 'set'
+
 data = DATA.each_line.map(&:chomp).map(&:freeze).freeze
 
 twos = 0
@@ -10,6 +12,16 @@ data.each do |entry|
 end
 
 p "Part 1 checksum: #{twos * threes}"
+
+seen = Set.new
+
+data.each do |entry|
+  entry.each_char.with_index do |char, ind|
+    partials = [entry[0...ind], entry[(ind+1)..-1]]
+    (puts partials.join; break) if seen.include?(partials)
+    seen << partials
+  end
+end
 
 
 __END__
